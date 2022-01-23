@@ -54,4 +54,9 @@ public class ClientService {
 		clientRepository.save(entity);
 		return new ClientDTO(entity);
 	}
+
+	@Transactional
+	public void delete(Long id) {
+		clientRepository.deleteById(id);
+	}
 }
