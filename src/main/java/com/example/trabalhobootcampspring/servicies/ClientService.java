@@ -1,5 +1,7 @@
 package com.example.trabalhobootcampspring.servicies;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,4 +24,10 @@ public class ClientService {
 		return pagedList.map(element -> new ClientDTO(element));
 	}
 
+	@Transactional(readOnly = true)
+	public ClientDTO findById(Long id) {
+		Optional<Client> client = clientRepository.findById(id);
+		ClientDTO dto = new ClientDTO(client.get());
+		return dto;
+	}
 }
