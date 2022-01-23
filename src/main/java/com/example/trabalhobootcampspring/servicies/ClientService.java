@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.trabalhobootcampspring.dto.ClientDTO;
 import com.example.trabalhobootcampspring.entities.Client;
 import com.example.trabalhobootcampspring.repositories.ClientRepository;
+import com.example.trabalhobootcampspring.servicies.exceptions.ObjectNotFoundException;
 
 @Service
 public class ClientService {
@@ -27,8 +28,8 @@ public class ClientService {
 	@Transactional(readOnly = true)
 	public ClientDTO findById(Long id) {
 		Optional<Client> client = clientRepository.findById(id);
-		ClientDTO dto = new ClientDTO(client.get());
-		return dto;
+		Client entity = client.orElseThrow(() -> new ObjectNotFoundException("Object not found!"));
+		return new ClientDTO(entity);
 	}
 
 	@Transactional
