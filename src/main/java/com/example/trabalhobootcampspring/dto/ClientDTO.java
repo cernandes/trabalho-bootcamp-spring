@@ -2,9 +2,9 @@ package com.example.trabalhobootcampspring.dto;
 
 import java.time.Instant;
 
-import com.example.trabalhobootcampspring.entities.User;
+import com.example.trabalhobootcampspring.entities.Client;
 
-public class UserDTO {
+public class ClientDTO {
 
 	private Long id;
 	private String name;
@@ -13,11 +13,11 @@ public class UserDTO {
 	private Instant birthDate;
 	private Integer children;
 
-	public UserDTO() {
+	public ClientDTO() {
 
 	}
 
-	public UserDTO(Long id, String name, String cpf, Double income, Instant birthDate, Integer children) {
+	public ClientDTO(Long id, String name, String cpf, Double income, Instant birthDate, Integer children) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -27,7 +27,7 @@ public class UserDTO {
 		this.children = children;
 	}
 
-	public UserDTO(User user) {
+	public ClientDTO(Client user) {
 
 		id = user.getId();
 		name = user.getName();
@@ -101,7 +101,7 @@ public class UserDTO {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		UserDTO other = (UserDTO) obj;
+		ClientDTO other = (ClientDTO) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

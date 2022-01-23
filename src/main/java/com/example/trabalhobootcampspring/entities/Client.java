@@ -11,8 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "tb_user")
-public class User implements Serializable {
+@Table(name = "tb_client")
+public class Client implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -26,11 +26,11 @@ public class User implements Serializable {
 	private Instant birthDate;
 	private Integer children;
 
-	public User() {
+	public Client() {
 
 	}
 
-	public User(Long id, String name, String cpf, Double income, Instant birthDate, Integer children) {	
+	public Client(Long id, String name, String cpf, Double income, Instant birthDate, Integer children) {	
 		this.id = id;
 		this.name = name;
 		this.cpf = cpf;
@@ -103,7 +103,7 @@ public class User implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		User other = (User) obj;
+		Client other = (Client) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
