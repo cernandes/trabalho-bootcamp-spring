@@ -2,7 +2,11 @@ package com.example.trabalhobootcampspring.servicies;
 
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -11,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.trabalhobootcampspring.dto.ClientDTO;
 import com.example.trabalhobootcampspring.entities.Client;
 import com.example.trabalhobootcampspring.repositories.ClientRepository;
+import com.example.trabalhobootcampspring.servicies.exceptions.DatabaseException;
 import com.example.trabalhobootcampspring.servicies.exceptions.ObjectNotFoundException;
 
 @Service
@@ -46,18 +51,28 @@ public class ClientService {
 
 	@Transactional
 	public ClientDTO update(Long id, ClientDTO dto) {
-		Client entity = clientRepository.getOne(id);
-		entity.setName(dto.getName());
-		entity.setCpf(dto.getCpf());
-		entity.setBirthDate(dto.getBirthDate());
-		entity.setIncome(dto.getIncome());
-		entity.setChildren(dto.getChildren());
-		clientRepository.save(entity);
-		return new ClientDTO(entity);
+		try {
+			Client entity = clientRepository.getOne(id);
+			entity.setName(dto.getName());
+			entity.setCpf(dto.getCpf());
+			entity.setBirthDate(dto.getBirthDate());
+			entity.setIncome(dto.getIncome());
+			entity.setChildren(dto.getChildren());
+			clientRepository.save(entity);
+			return new ClientDTO(entity);
+		} catch (EntityNotFoundException msg) {
+			throw new ObjectNotFoundException("Object Not Found!" + id);
+		}
 	}
 
 	@Transactional
 	public void delete(Long id) {
-		clientRepository.deleteById(id);
+		try {
+			clientRepository.deleteById(id);
+		} catch (EmptyResultDataAccessException msg) {
+			throw new ObjectNotFoundException("Object Not Found!");
+		} catch (DataIntegrityViolationException msg) {
+			throw new DatabaseException("Database Integrity Violation!");
+		}
 	}
 }
